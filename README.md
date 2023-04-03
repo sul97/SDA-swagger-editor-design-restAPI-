@@ -10,4 +10,4 @@ Before diving into the assignment, make sure you review the slides and understan
 - What kind of endpoints the API would have
 - Document the endpoints using Swagger (documentation only, NO CODE)
 
-Make sure you cover the basic routes firt.
+Make sure you cover the basic routes first.
