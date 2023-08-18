@@ -1,13 +1,26 @@
-# Design a REST API - Design First (NO CODE)
+# Library and E-commerce API - Swagger Editor
 
-Before diving into the assignment, make sure you review the slides and understand the theortical part and best practices.
+This project focuses on designing your API endpoints for the models in the Library or E-commerce domains. The API endpoints should be documented using Swagger for clear and consistent documentation.
 
-## Plan with your group mates:
+This assignment is an introduction to how to document a very basic API
 
-- What my data should look like
-- What are the entities that we should have ie (Products and Users)
-- What is the relation between these entities (you could read about it, and we will cover that in the next lectures)
-- What kind of endpoints the API would have
-- Document the endpoints using Swagger (documentation only, NO CODE)
+## Level 1: Basic Requirements
 
-Make sure you cover the basic routes first.
+In this level, the following tasks need to be completed:
+
+- Define the models for the Library or E-commerce domains.
+- Define the relations among the models to establish the necessary connections.
+- Design the endpoints for basic CRUD operations for each model.
+
+## Level 2: Additional Requirements
+
+In addition to the basic requirements, the following tasks should be implemented:
+
+- Design endpoints for user authentication, including login, register, and logout functionality.
+- Design endpoints for searching products by name.
+- Design endpoints for pagination and sorting to efficiently retrieve data.
+
+
+
+
+`Please note that the additional requirements are optional and can be completed if you have additional time and advanced skills.`
