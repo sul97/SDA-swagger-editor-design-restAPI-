@@ -130,11 +130,13 @@ components:
           type: string
           description: the id of Order will be automatically generated in the backend
         productId:
-          type: string
-          description: the id of product
+          type: array
+          items:
+             $ref: '#/components/schemas/Product'
         userId:
-          type: string
-          description: the id of user
+          type: array
+          items:
+             $ref: '#/components/schemas/User'
         purchasedAt:
           type: string
           description: the date and time of order
@@ -149,6 +151,25 @@ paths:
       tags:
         - Product
       summary: get all products
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: number
+          required: false
+        - in: query
+          name: limit
+          schema:
+            type: number
+          required: false
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+            enum:
+              - 'asc'
+              - 'desc'
+          required: false
       responses:
         200:
           description: all products are returned
@@ -238,6 +259,8 @@ paths:
       responses:
         200:
           description: product is delete
+        404:
+          description: product not found
         500:
           description: server error
 
@@ -359,6 +382,8 @@ paths:
       responses:
         200:
           description: user is delete
+        404:
+          description: user not found
         500:
           description: server error
 
@@ -382,6 +407,40 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
+        500:
+          description: server error
+  /users/login:
+    post:
+      tags:
+        - User
+      summary: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+               type: object
+               properties:
+                 email:
+                   type: string
+                 password:
+                   type: string
+
+      responses:
+        200:
+          description: User login successfully
+        401:
+          description: Unauthorized
+        500:
+          description: server error
+
+  /users/logout:
+    post:
+      tags:
+        - User
+      summary: logout
+      responses:
+        200:
+          description: User logout successfully
         500:
           description: server error
 
@@ -480,6 +539,8 @@ paths:
       responses:
         200:
           description: Category is delete
+        404:
+          description: Category not found
         500:
           description: server error
 
@@ -601,6 +662,8 @@ paths:
       responses:
         200:
           description: Order is delete
+        404:
+          description: Order not found
         500:
           description: server error
 
