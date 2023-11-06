@@ -409,7 +409,7 @@ paths:
                   $ref: "#/components/schemas/User"
         500:
           description: server error
-  /users/login:
+  /login:
     post:
       tags:
         - User
@@ -433,7 +433,7 @@ paths:
         500:
           description: server error
 
-  /users/logout:
+  /logout:
     post:
       tags:
         - User
@@ -667,25 +667,3 @@ paths:
         500:
           description: server error
 
-  /orders/search:
-    get:
-      tags:
-        - Order
-      summary: search Order
-      parameters:
-        - in: query
-          name: search
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: all orders are returned based on search value
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Order"
-        500:
-          description: server error
