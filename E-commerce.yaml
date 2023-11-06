@@ -1,0 +1,628 @@
+openapi: 3.0.3
+
+info:
+  version: 1.0.0
+  title: E-commerce API
+  description: API for E-commerce platform
+  contact:
+    email: almalki.sultana@gmail.com
+
+servers:
+  - url: http://localhost:3001
+
+tags:
+  - name: Product
+    description: everything about products
+  - name: User
+    description: everything about users
+  - name: Category
+    description: everything about categories
+  - name: Order
+    description: everything about orders
+
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - name
+        - categories
+        - price
+      properties:
+        id:
+          type: string
+          description: the id of product will be automatically generated in the backend
+        name:
+          type: string
+          description: the name of the product
+        image:
+          type: string
+          description: the image of the product
+        description:
+          type: string
+          description: the description of the product
+        categories:
+          type: array
+          description: the categories of the product
+          items:
+            type: number
+        variants:
+          type: array
+          description: the variants of the product
+          items:
+            type: string
+        sizes:
+          type: array
+          description: the sizes of the product
+          items:
+            type: string
+        price:
+          type: number
+          description: the price of the product
+      example:
+        id: 1
+        name: Laptop
+        image: https://m.media-amazon.com/images/I/81KoSSAwH2L._SL1500_.jpg
+        description: High-performance laptop for all your needs.
+        categories: [1, 2]
+        variants: ["8GB RAM", "16GB RAM"]
+        sizes: ["13-inch", "15-inch"]
+        price: 2000
+
+    User:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - password
+        - role
+      properties:
+        id:
+          type: string
+          description: the id of user will be automatically generated in the backend
+        firstName:
+          type: string
+          description: the first name of the user
+        lastName:
+          type: string
+          description: the last name of the user
+        email:
+          type: string
+          description: the email of the useer
+        password:
+          type: string
+          description: the password of the user
+        role:
+          type: string
+          description: the role of the user
+      example:
+        id: 1
+        firstName: John
+        lastName: Doe
+        email: john.doe@example.com
+        password: hashed_password
+        role: admin
+
+    Category:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          description: the id of category will be automatically generated in the backend
+        name:
+          type: string
+          description: the name of the category
+      example:
+        id: 1
+        name: Electronics
+
+    Order:
+      type: object
+      required:
+        - productId
+        - userId
+        - purchasedAt
+      properties:
+        id:
+          type: string
+          description: the id of Order will be automatically generated in the backend
+        productId:
+          type: string
+          description: the id of product
+        userId:
+          type: string
+          description: the id of user
+        purchasedAt:
+          type: string
+          description: the date and time of order
+      example:
+        id: 1
+        productId: 1
+        userId: 1
+        purchasedAt: 2023-09-18T10:00:00
+paths:
+  /products:
+    get:
+      tags:
+        - Product
+      summary: get all products
+      responses:
+        200:
+          description: all products are returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        500:
+          description: server error
+
+    post:
+      tags:
+        - Product
+      summary: create a product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        201:
+          description: single product is returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        500:
+          description: server error
+  /products/{productId}:
+    get:
+      tags:
+        - Product
+      summary: get single product
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: single product is returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        500:
+          description: server error
+
+    put:
+      tags:
+        - Product
+      summary: update single product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: single product is update
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        500:
+          description: server error
+
+    delete:
+      tags:
+        - Product
+      summary: delete single product
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: product is delete
+        500:
+          description: server error
+
+  /products/search:
+    get:
+      tags:
+        - Product
+      summary: search products
+      parameters:
+        - in: query
+          name: search
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: all products are returned based on search value
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        500:
+          description: server error
+
+  /users:
+    get:
+      tags:
+        - User
+      summary: get all users
+      responses:
+        200:
+          description: all users are returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        500:
+          description: server error
+
+    post:
+      tags:
+        - User
+      summary: create a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        201:
+          description: single user is returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        500:
+          description: server error
+
+  /users/{userId}:
+    get:
+      tags:
+        - User
+      summary: get single user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: single user is returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        500:
+          description: server error
+
+    put:
+      tags:
+        - User
+      summary: update single user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: single user is updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        500:
+          description: server error
+
+    delete:
+      tags:
+        - User
+      summary: delete single user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: user is delete
+        500:
+          description: server error
+
+  /users/search:
+    get:
+      tags:
+        - User
+      summary: search users
+      parameters:
+        - in: query
+          name: search
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: all users are returned based on search value
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        500:
+          description: server error
+
+  /categories:
+    get:
+      tags:
+        - Category
+      summary: get all categories
+      responses:
+        200:
+          description: all categories are returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+        500:
+          description: server error
+
+    post:
+      tags:
+        - Category
+      summary: create a Category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
+      responses:
+        201:
+          description: single Category is returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        500:
+          description: server error
+
+  /categories/{categoryId}:
+    get:
+      tags:
+        - Category
+      summary: get single Category
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: single Category is returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        500:
+          description: server error
+
+    put:
+      tags:
+        - Category
+      summary: update single Category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: single Category is update
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Category"
+        500:
+          description: server error
+
+    delete:
+      tags:
+        - Category
+      summary: delete single Category
+      parameters:
+        - in: path
+          name: categoryId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Category is delete
+        500:
+          description: server error
+
+  /categories/search:
+    get:
+      tags:
+        - Category
+      summary: search categories
+      parameters:
+        - in: query
+          name: search
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: all categories are returned based on search value
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+        500:
+          description: server error
+
+  /orders:
+    get:
+      tags:
+        - Order
+      summary: get all Order
+      responses:
+        200:
+          description: all Order are returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+        500:
+          description: server error
+
+    post:
+      tags:
+        - Order
+      summary: create a Order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+      responses:
+        201:
+          description: single Order is returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        500:
+          description: server error
+
+  /orders/{orderId}:
+    get:
+      tags:
+        - Order
+      summary: get single Order
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: single Order is returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        500:
+          description: server error
+
+    put:
+      tags:
+        - Order
+      summary: update single Order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: single Order is update
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        500:
+          description: server error
+
+    delete:
+      tags:
+        - Order
+      summary: delete single Order
+      parameters:
+        - in: path
+          name: orderId
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Order is delete
+        500:
+          description: server error
+
+  /orders/search:
+    get:
+      tags:
+        - Order
+      summary: search Order
+      parameters:
+        - in: query
+          name: search
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: all orders are returned based on search value
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
+        500:
+          description: server error
